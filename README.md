@@ -1,4 +1,5 @@
 Background Remover Website
+
 This project is a simple yet powerful web application that allows users to remove the background from an image effortlessly. Whether you're a graphic designer, photographer, or just looking to have some fun with your photos, this tool can help you achieve that perfect cutout effect in no time.
 
 Features
