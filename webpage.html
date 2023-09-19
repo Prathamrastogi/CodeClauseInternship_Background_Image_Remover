@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Background Remover</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('images/cool-background.png');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        header {
+            text-align: center;
+            padding: 100px 0;
+        }
+        h1 {
+            font-size: 36px;
+        }
+        .content {
+            margin: 25px;
+            padding: 10px;
+            background-image: url('images/cool-background1.png');
+            padding: 20px;
+            text-align: center;
+        }
+        p {
+            font-size: 18px;
+        }
+        .Social {
+            background-image: url('images/cool-background1.png');
+            position: absolute;
+            bottom: 10%;
+            left: 60%;
+        }
+
+        .Social img {
+            width: 100px;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <h1>Image Background Remover</h1>
+    </header>
+    <div class="content">
+        <p style="color:black;">This is the Website Designed for removing the background from the selected image .</p>
+        <form>
+            <label for="fileInput">Select a File: </label> 
+            <input id="fileInput" type="file" >
+            <button onclick="submitHandler()" type="button">Upload</button>
+        </form>    
+            <button onclick="downloadFile()">Download</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        let imageURL;
+        function submitHandler(){
+        console.log("click");
+        const fileInput = document.getElementById('fileInput');
+        console.log(fileInput.files);
+        const image = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('image_file', image);
+        formData.append('size', 'auto');
+        const apiKey = '1YCrTNpPMsdCZ3VGV6qdkRQR';
+        fetch('https://api.remove.bg/v1.0/removebg',{
+            method:'POST',
+            headers: {
+            'X-Api-Key': apiKey
+         },
+         body: formData
+        })
+        .then(function(reponse){
+                return reponse.blob()
+        })
+        .then(function(blob){
+                console.log(blob);
+                const url = URL.createObjectURL(blob);
+                imageURL = url;
+                const img = document.createElement('img');
+                img.src = url;
+                document.body.appendChild(img);
+        })
+        .catch();
+    }
+   function downloadFile(){
+    var anchorElement = document.createElement('a'); 
+        anchorElement.href = imageURL;
+        anchorElement.download = 'Result.png';
+        document.body.appendChild(anchorElement);
+        anchorElement.click();
+        document.body.removeChild(anchorElement);
+   }
+    </script>
+    <div class="Social">
+        <a href ="https://www.facebook.com/prathamroc/"><img src="images/icon1.png" alt="Facebook"></a>
+        <a href ="https://www.instagram.com/pratham____rastogi/"><img src="images/icon2.png" alt="Instagram"></a>
+        <a href ="https://t.snapchat.com/rGp8CSxt"><img src="images/icon3.png" alt="Snapchat"></a>
+        <a href ="https://www.youtube.com/channel/UCVizky6oE7XL0aut0YiM7fw"><img src="images/icon4.png" alt="Youtube"></a>
+    </div>
+</body>
+</html>
